@@ -139,7 +139,7 @@ It has a maintenance cost — not every project should adopt it. Skip it if you 
 
 This is the **entry-level** coordination primitive. If you grow into a larger, more complex governance setup (single-source-of-truth registries, cross-layer trace locks, automated guard rules), this board is the on-ramp to that philosophy — start here, graduate later.
 
-- 📖 Full methodology (繁體中文, with a worked three-window walkthrough): [`docs/methodology.zh-TW.md`](docs/methodology.zh-TW.md)
+- 📖 Full methodology (with a worked three-window walkthrough): [English](docs/methodology.md) · [繁體中文](docs/methodology.zh-TW.md)
 - 🧩 Opening-ritual snippets for CLAUDE.md / .cursorrules / generic agents: [`ritual-snippets.md`](ritual-snippets.md)
 - 📋 Copy-paste board: [`WORK-BOARD.template.md`](WORK-BOARD.template.md)
 
