@@ -10,6 +10,28 @@ When you code with AI agents, you naturally open **several chat windows at once*
 
 It's deliberately tiny: **one Markdown file + one optional script + one line in your agent's rules.** No service, no database, no lock server.
 
+```text
+   Window A                WORK-BOARD.md                Window B
+  (checkout)            (shared, lives in git)           (admin)
+      │                         │                           │
+      │ 1. scan ───────────────▶│  CHECKOUT: free           │
+      │ 2. add claim row ──────▶│  CHECKOUT → A 🔒          │
+      │ 3. push immediately ───▶│  (git = the lock)         │
+      │                         │◀─────────────── scan   1. │
+      │                         │  ADMIN: free              │
+      │                         │  sees A on CHECKOUT ─────▶ │  no clash →
+      │                         │                           │  claims ADMIN
+      ▼                         ▼                           ▼
+  edits useCheckout       one source of truth        edits pages/admin
+   + orders table          everyone reads first      (knows to avoid checkout)
+
+
+   Window C wants checkout too:
+      scan ──▶ board shows "CHECKOUT → A 🔒, refactoring"
+            └▶ C does NOT barge in. Picks other work / waits / coordinates.
+               ✅ collision avoided BEFORE editing — not at merge time.
+```
+
 ---
 
 ## Why not just use the agent's built-in todo list?
