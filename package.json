@@ -1,0 +1,29 @@
+{
+  "name": "agent-work-board",
+  "version": "0.1.0",
+  "description": "A one-file coordination board so your parallel AI coding sessions don't collide.",
+  "type": "module",
+  "bin": {
+    "board-status": "scripts/board-status.mjs"
+  },
+  "scripts": {
+    "board": "node scripts/board-status.mjs"
+  },
+  "keywords": [
+    "ai",
+    "agent",
+    "claude-code",
+    "cursor",
+    "coordination",
+    "multi-session",
+    "worktree",
+    "workflow"
+  ],
+  "license": "MIT",
+  "files": [
+    "scripts/",
+    "WORK-BOARD.template.md",
+    "ritual-snippets.md",
+    "docs/"
+  ]
+}
