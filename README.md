@@ -49,6 +49,26 @@ They **stack**: each session uses its todo list internally, while the board coor
 
 ---
 
+## How this fits with the rest of your harness
+
+The board is **not** another mechanism competing with your agent runtime. It sits *above* all of them. Everything below works **within one orchestrated run**; the board works **across the runs you launched by hand**.
+
+| Tool | Layer | The board's relation |
+|---|---|---|
+| subagents / Agent tool / Workflows | intra-run (one orchestrator fans out helpers) | orthogonal — the board coordinates the *separate* runs you started, which no single orchestrator sees |
+| git worktrees | filesystem isolation | complements — worktrees stop *file* clobber; the board stops *whom-does-what* clobber (two windows both deciding to refactor checkout) |
+| native task / agent-team features | intra-run step tracking | same as the built-in todo above: within-session, invisible to your other windows |
+| file-lock + handoff tools (e.g. mclaude) | mechanism (atomic locks, handoff notes) | the board is convention-only (git *is* the lock) and adds the two things a lock doesn't: a **territory map** and **footprint awareness** |
+
+**Two genuine differentiators** — neither the native harness nor a lock tool gives you these:
+
+1. **A territory map (WHERE).** The repo is pre-split into 5–8 named areas; a claim reads "I'm in CHECKOUT", not "I locked 12 files". Humans coordinate on areas, not file lists.
+2. **Footprint awareness (WHAT KIND).** Before you parallelize, classify the shared state you're about to *write*: a disjoint leaf / a hot shared file / a discrete allocator (e.g. migration numbers) / a singleton mutable service / a function others depend on. Each class has a different safe move — not every same-area overlap is equally dangerous. (See [`docs/methodology.md`](docs/methodology.md).)
+
+Run one window and you need none of this. Run two, and the harness coordinates *inside* each while nothing coordinates *between* them. That gap is the board.
+
+---
+
 ## Quick start (5 minutes)
 
 1. **Copy the board file** into your repo at a fixed path on your **main branch**:
