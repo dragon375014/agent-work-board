@@ -165,6 +165,14 @@ This is the **entry-level** coordination primitive. If you grow into a larger, m
 
 ---
 
+## Ecosystem
+
+This board is the **coordination layer** of a five-repo AI-dev toolchain — full map: [ai-dev-toolkit/ECOSYSTEM.md](https://github.com/dragon375014/ai-dev-toolkit/blob/main/ECOSYSTEM.md).
+
+[`spec-sonar`](https://github.com/dragon375014/spec-sonar) (private) turns ideas into specs and goal graphs; [`goal-workflow-designer`](https://github.com/dragon375014/goal-workflow-designer) shapes tasks into precise prompts; [`claude-skills-governance-meta`](https://github.com/dragon375014/claude-skills-governance-meta) governs what each session writes — and this board keeps the sessions running all of the above from colliding. The "larger governance setup" mentioned in *Going further* is that governance repo.
+
+---
+
 ## License
 
 MIT — see [`LICENSE`](LICENSE). Use it anywhere, no attribution required.
