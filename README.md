@@ -155,6 +155,21 @@ It has a maintenance cost — not every project should adopt it. Skip it if you 
 
 ---
 
+## Ecosystem
+
+This tool is part of a **six-repo AI-dev toolchain** by [dragon375014](https://github.com/dragon375014).
+
+**One-command install** (drops all six tools into the right place):
+```bash
+npx specmit init
+```
+
+Full topology, routing rules, and canonical skill ownership → [**ai-dev-toolkit/ECOSYSTEM.md**](https://github.com/dragon375014/ai-dev-toolkit/blob/master/ECOSYSTEM.md)
+
+Siblings: [spec-sonar](https://github.com/dragon375014/spec-sonar) · [goal-workflow-designer](https://github.com/dragon375014/goal-workflow-designer) · [specmit](https://github.com/dragon375014/specmit) · [claude-skills-governance-meta](https://github.com/dragon375014/claude-skills-governance-meta) · [ai-dev-toolkit](https://github.com/dragon375014/ai-dev-toolkit)
+
+---
+
 ## Going further
 
 This is the **entry-level** coordination primitive. If you grow into a larger, more complex governance setup (single-source-of-truth registries, cross-layer trace locks, automated guard rules), this board is the on-ramp to that philosophy — start here, graduate later.
