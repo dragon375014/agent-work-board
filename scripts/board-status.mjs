@@ -87,7 +87,7 @@ if (isHook) {
   const listed = boardText().includes(cur)
   if (!listed) {
     console.log('')
-    console.log(`📋 Board reminder: you're pushing "${cur}", but ${process.env.BOARD_FILE || 'WORK-BOARD.md'} "In progress" doesn't list it.`)
+    console.log(`📋 Board reminder: you're pushing "${cur}", but this branch is not on the board (${process.env.BOARD_FILE || 'WORK-BOARD.md'}).`)
     console.log('   → For cross-file / feature work, add a row to claim it (prevents multi-session collisions). Throwaway branches: ignore.')
     console.log('')
   }

@@ -35,6 +35,15 @@
 
 ---
 
+## 📍 Canonical access path
+
+> All sessions read/write **the same file at the same path** — that's what makes it the single source of truth.
+
+- Path: `WORK-BOARD.md` at repo root, on the **main branch** *(example — set yours and never move it)*
+- Sync: commit + push right after every claim/update; pull before you read.
+
+---
+
 ## 🗺️ Area map (so two sessions don't claim overlapping areas)
 
 | Code | Scope | Main files / modules |

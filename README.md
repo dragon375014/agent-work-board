@@ -85,6 +85,7 @@ Run one window and you need none of this. Run two, and the harness coordinates *
    ```bash
    npm run board          # print branch status (last commit, ahead/behind, claimed?)
    ```
+   The package also ships a `board-status` bin entry, so if it's installed as a dependency you can call `npx board-status` directly — no npm script needed.
 
 That's it. Start small (just the "In progress" table + the ritual); grow the area map and scripts only when collisions actually start happening.
 
@@ -94,7 +95,7 @@ That's it. Start small (just the "In progress" table + the ritual); grow the are
 
 **① Before you start (3 steps)**
 1. Check the **area map** + **🔵 In progress** — confirm nobody is in your area.
-2. **Add a row** to "In progress": area / task / branch / start date / today / one-line note.
+2. **Add a row** to "In progress": area / task / branch / start date / last updated / one-line note.
 3. **Commit + push that claim immediately** (not when you finish) → then start.
 
 > **Why push the claim right away (the "grab the lock" rule):** between "check nobody's there" and "add a row" there's a gap — two sessions can both read *empty* and claim the same area (a race). Pushing the row instantly uses git as the lock: whoever pushes first wins; the second push fails and is forced to rebase, discovering the collision **at claim time** instead of at merge time.
@@ -157,16 +158,11 @@ It has a maintenance cost — not every project should adopt it. Skip it if you 
 
 ## Ecosystem
 
-This tool is part of a **six-repo AI-dev toolchain** by [dragon375014](https://github.com/dragon375014).
+This board is the **coordination layer** of a **five-public-repo AI-dev toolchain** by [dragon375014](https://github.com/dragon375014) — one-command install: `npx specmit init`.
 
-**One-command install** (drops all six tools into the right place):
-```bash
-npx specmit init
-```
+Full topology, routing rules, and canonical skill ownership → [**specmit/ECOSYSTEM.md**](https://github.com/dragon375014/specmit/blob/main/ECOSYSTEM.md)
 
-Full topology, routing rules, and canonical skill ownership → [**ai-dev-toolkit/ECOSYSTEM.md**](https://github.com/dragon375014/ai-dev-toolkit/blob/master/ECOSYSTEM.md)
-
-Siblings: [spec-sonar](https://github.com/dragon375014/spec-sonar) · [goal-workflow-designer](https://github.com/dragon375014/goal-workflow-designer) · [specmit](https://github.com/dragon375014/specmit) · [claude-skills-governance-meta](https://github.com/dragon375014/claude-skills-governance-meta) · [ai-dev-toolkit](https://github.com/dragon375014/ai-dev-toolkit)
+Siblings: [spec-sonar](https://github.com/dragon375014/spec-sonar) · [specmit](https://github.com/dragon375014/specmit) · [goal-workflow-designer](https://github.com/dragon375014/goal-workflow-designer) · [claude-skills-governance-meta](https://github.com/dragon375014/claude-skills-governance-meta) — spec-sonar turns ideas into specs and goal graphs, specmit executes those goals in parallel, and this board keeps the sessions running all of the above from colliding.
 
 ---
 
@@ -177,14 +173,6 @@ This is the **entry-level** coordination primitive. If you grow into a larger, m
 - 📖 Full methodology (with a worked three-window walkthrough): [English](docs/methodology.md) · [繁體中文](docs/methodology.zh-TW.md)
 - 🧩 Opening-ritual snippets for CLAUDE.md / .cursorrules / generic agents: [`ritual-snippets.md`](ritual-snippets.md)
 - 📋 Copy-paste board: [`WORK-BOARD.template.md`](WORK-BOARD.template.md)
-
----
-
-## Ecosystem
-
-This board is the **coordination layer** of a six-repo AI-dev toolchain — full map: [ai-dev-toolkit/ECOSYSTEM.md](https://github.com/dragon375014/ai-dev-toolkit/blob/HEAD/ECOSYSTEM.md).
-
-[`spec-sonar`](https://github.com/dragon375014/spec-sonar) (private) turns ideas into specs and goal graphs; [`goal-workflow-designer`](https://github.com/dragon375014/goal-workflow-designer) shapes tasks into precise prompts; [`claude-skills-governance-meta`](https://github.com/dragon375014/claude-skills-governance-meta) governs what each session writes — and this board keeps the sessions running all of the above from colliding. The "larger governance setup" mentioned in *Going further* is that governance repo.
 
 ---
 
