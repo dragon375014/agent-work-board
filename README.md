@@ -113,8 +113,12 @@ That's it. Start small (just the "In progress" table + the ritual); grow the are
 - ⚠️ **Before reclaiming, re-verify on the spot with `git log -1 <branch>`.** Never trust the old snapshot — it may be wrong and you'll delete an active branch.
 - Only reclaim if the branch truly has no new commits; note "reclaimed from stale".
 
-**⑤ Auto-nudge (non-blocking)**
-- A pre-push hook can run `node scripts/board-status.mjs --hook`: if you push a feature branch not listed on the board, it prints one reminder line. Reminder only — never blocks.
+**⑤ Claim gate (conditional)**
+- A pre-push hook runs `node scripts/board-status.mjs --hook`. It is **conditional on whether other sessions are active**:
+  - **Solo** (no other feature branch committed in the last 24h): pushing an unclaimed feature branch prints **one reminder line — never blocks**.
+  - **Parallel** (another feature branch active in the last 24h): pushing an **unclaimed** feature branch is **blocked** (exit 1) until you add a claim row to the board. Pushing straight to the base branch is never hard-blocked (it warns when parallel).
+- **Fail-open**: any script error lets the push through. Emergency bypass: `git push --no-verify`.
+- *Why conditional:* a hard block on every solo push is pure friction; the block only earns its keep when a second session is genuinely running in parallel — the case where an unclaimed branch actually causes a collision.
 
 ---
 

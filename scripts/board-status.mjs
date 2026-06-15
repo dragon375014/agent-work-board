@@ -8,11 +8,13 @@
  * whether the board has it claimed. It adds three things:
  *   - git truth: a non-lying branch-status table next to the hand-written progress
  *   - stale detection by *branch last-commit time*, not board edit time (more honest)
- *   - hook reminder: pushing a feature branch the board doesn't list → print a nudge (never blocks)
+ *   - claim gate: a CONDITIONAL pre-push gate — solo nudges, parallel blocks an
+ *     unclaimed feature branch (see --hook below)
  *
  * Usage:
  *   node scripts/board-status.mjs            # print the branch-status table (npm run board)
- *   node scripts/board-status.mjs --hook     # for pre-push: only nudge when "unclaimed", always exit 0
+ *   node scripts/board-status.mjs --hook     # for pre-push: conditional claim gate
+ *                                            #   solo: nudge only (exit 0); parallel: block unclaimed feature branch (exit 1)
  *
  * Config (optional):
  *   BOARD_FILE=path/to/WORK-BOARD.md   # default: WORK-BOARD.md at repo root
@@ -80,18 +82,62 @@ function currentBranch() {
   return shSafe('git rev-parse --abbrev-ref HEAD')
 }
 
-// ---- hook mode: pushing a feature branch the board doesn't mention → nudge, always exit 0 ----
+// ---- hook mode: CONDITIONAL claim enforcement ----
+// Rule: solo (no other feature branch committed in the last 24h) → nudge only, never blocks.
+//       parallel (another feature branch active in the last 24h) → block an *unclaimed*
+//       feature branch push (exit 1) until it's claimed on the board.
+//       Pushing straight to the base branch is never hard-blocked (warns when parallel).
+// fail-open: any internal error lets the push through. Emergency bypass: git push --no-verify.
 if (isHook) {
-  const cur = currentBranch()
-  if (!cur || cur === BASE || cur === 'HEAD') process.exit(0)
-  const listed = boardText().includes(cur)
-  if (!listed) {
+  try {
+    const cur = currentBranch()
+    const board = boardText()
+    const boardName = process.env.BOARD_FILE || 'WORK-BOARD.md'
+
+    // parallel detection: a feature branch other than current with a commit in the last 24h (ageDays === 0)
+    const activeOthers = featureBranches()
+      .filter((b) => b !== cur)
+      .map(branchInfo)
+      .filter((b) => b.ageDays === 0)
+    const parallel = activeOthers.length > 0
+    const others = activeOthers.map((b) => `${b.branch} (${b.rel})`).join(', ')
+
+    // pushing to base: never hard-block; warn loudly when parallel
+    if (!cur || cur === BASE || cur === 'HEAD') {
+      if (parallel) {
+        console.warn('')
+        console.warn(`⚠  You're pushing straight to ${BASE}, but other sessions look active: ${others}`)
+        console.warn('   Half-finished work pushed to the shared base while others run in parallel is the classic collision.')
+        console.warn('   Prefer a feature branch + a claim, or confirm you are not pushing WIP. (warn only, never blocks)')
+        console.warn('')
+      }
+      process.exit(0)
+    }
+
+    // feature branch already on the board → allow
+    if (board.includes(cur)) process.exit(0)
+
+    // unclaimed + parallel → block (conditional enforcement)
+    if (parallel) {
+      console.error('')
+      console.error(`❌ Push blocked: branch "${cur}" is not on the board (${boardName}) and a parallel session is active: ${others}`)
+      console.error('   → Add a row to the board "In progress" → commit + push the board → then push this branch.')
+      console.error('   (Conditional: only blocks when sessions run in parallel; solo only nudges. Force: git push --no-verify)')
+      console.error('')
+      process.exit(1)
+    }
+
+    // unclaimed + solo → nudge (never blocks)
     console.log('')
-    console.log(`📋 Board reminder: you're pushing "${cur}", but this branch is not on the board (${process.env.BOARD_FILE || 'WORK-BOARD.md'}).`)
+    console.log(`📋 Board reminder: you're pushing "${cur}", but this branch is not on the board (${boardName}).`)
     console.log('   → For cross-file / feature work, add a row to claim it (prevents multi-session collisions). Throwaway branches: ignore.')
     console.log('')
+    process.exit(0)
+  } catch (e) {
+    // fail-open: never block a push on our own error
+    console.warn(`(board-status hook internal error, allowing push: ${e?.message || e})`)
+    process.exit(0)
   }
-  process.exit(0)
 }
 
 // ---- default mode: print the branch-status table ----
