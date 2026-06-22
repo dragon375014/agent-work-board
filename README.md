@@ -63,7 +63,7 @@ The board is **not** another mechanism competing with your agent runtime. It sit
 **Two genuine differentiators** — neither the native harness nor a lock tool gives you these:
 
 1. **A territory map (WHERE).** The repo is pre-split into 5–8 named areas; a claim reads "I'm in CHECKOUT", not "I locked 12 files". Humans coordinate on areas, not file lists.
-2. **Footprint awareness (WHAT KIND).** Before you parallelize, classify the shared state you're about to *write*: a disjoint leaf / a hot shared file / a discrete allocator (e.g. migration numbers) / a singleton mutable service / a function others depend on. Each class has a different safe move — not every same-area overlap is equally dangerous. (See [`docs/methodology.md`](docs/methodology.md).)
+2. **Footprint awareness (WHAT KIND).** Before you parallelize, classify the shared state you're about to *write*: a disjoint leaf / a hot shared file / a discrete allocator (e.g. migration numbers) / a singleton mutable service (including the working copy's own git `HEAD` — one checkout, many windows; territory can't see it) / a function others depend on. Each class has a different safe move — not every same-area overlap is equally dangerous. (See [`docs/methodology.md`](docs/methodology.md).)
 
 Run one window and you need none of this. Run two, and the harness coordinates *inside* each while nothing coordinates *between* them. That gap is the board.
 

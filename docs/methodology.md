@@ -17,6 +17,7 @@ When you code with AI, you naturally open **several chat windows at once**: A re
 | Changed X, unaware Y relied on X's old behavior | No "blast radius" awareness |
 | The next session starts from zero | Last session's progress lives nowhere fixed |
 | Deleted a branch someone was still using | Judged "abandoned" from memory / a stale snapshot |
+| Ran `checkout -b` in a shared working copy → another window's commits land on your branch | One working copy = one git `HEAD`; switching it moves it for *every* window, and territory can't see it — the files may be disjoint |
 
 **The board is a sticky note on the wall**: who's doing what, how far, which files. Glance before you start — you stop colliding with yourself.
 
@@ -148,6 +149,7 @@ You have three AI windows A / B / C open at once.
 | Claim then don't update | others can't tell if you're still on it | update "last updated" on each step |
 | Everyone re-sorts the whole table | the board becomes its own merge-conflict hotspot | edit only your own row |
 | Delete a branch off the old snapshot | snapshot may be stale → you kill an active branch | re-verify with `git log -1` before reclaiming |
+| 2+ windows on one working copy, each on its own branch | one shared HEAD → `checkout` / `checkout -b` in one window redirects another's commits onto your branch (disjoint files won't save you — territory can't see HEAD) | concurrent sessions each get their own `git worktree` (own HEAD); or keep all windows on one branch and coordinate commit *timing*, not just files |
 | Board commit triggers full CI build | plain-text change burns deploy quota | `[skip ci]` or a CI path filter |
 | Dump everything on the board | becomes an unmaintained mess | enforce the 5-doc split (section 2) |
 | Built it but no opening ritual | nobody / no AI remembers to look | wire it into the rules file |
