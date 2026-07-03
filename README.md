@@ -160,6 +160,14 @@ It has a maintenance cost — not every project should adopt it. Skip it if you 
 
 ---
 
+## Known limitations
+
+- **Single-machine, multi-clone blindness.** The board only sees what gets pushed to the shared remote. Two clones of the same repo that never push to each other (or a session that forgets to push its claim) are invisible to each other — the board is convention-on-top-of-git, not a live lock server.
+- **Solo compliance in practice is low.** Reported real-world use: when a session runs alone for a stretch, the "add a row before you start" step tends to get skipped — nothing forces it in the solo case by design (§⑤ only hard-blocks when a second session is genuinely active). That's a deliberate low-friction tradeoff, not a bug, but it means the board's actual collision coverage depends on how consistently claims get made, not just on the gate existing.
+- **Not published to npm.** There is no `npm install agent-work-board` / `npx agent-work-board` today — install via manual clone (`git clone https://github.com/dragon375014/agent-work-board`) and copy in the files you need (see Quick start). The `bin` entry in `package.json` is prepared for a future publish, not evidence one has happened.
+
+---
+
 ## Ecosystem
 
 This board is the **coordination layer** of a **five-public-repo AI-dev toolchain** by [dragon375014](https://github.com/dragon375014) — one-command install: `npx specmit init`.

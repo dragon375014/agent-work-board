@@ -90,8 +90,8 @@
 - ⚠️ **回收前必當場 `git log -1 <分支>` 重驗 HEAD** — 別只信看板舊紀錄，否則會誤刪活躍分支。
 - 確認分支無新 commit 才可改認領，備註註明「原認領 stale 回收」。
 
-**⑤ 自動提醒（非阻擋）**
-- pre-push hook 跑 `board-status.mjs --hook`：push 的 feature 分支在看板找不到 → 印一行提醒。只提醒、不擋。
+**⑤ 認領閘（條件式）**
+- pre-push hook 跑 `board-status.mjs --hook`，是否阻擋取決於有沒有其他 session 在跑：**單人**（過去 24 小時沒有其他 feature 分支有 commit）只印一行提醒、不擋;**並行**（過去 24 小時有其他 feature 分支活躍）push 未認領的 feature 分支會被**擋下**（exit 1），直到補上認領列。腳本出錯 fail-open；緊急繞過 `git push --no-verify`。
 
 ---
 

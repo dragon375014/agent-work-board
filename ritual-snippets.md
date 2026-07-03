@@ -46,19 +46,24 @@ who is working on what. Before modifying any code:
 
 ---
 
-## Optional: pre-push reminder hook
+## Optional: pre-push claim gate hook
 
-If you added `scripts/board-status.mjs`, wire a **non-blocking** nudge so pushing an
-unclaimed feature branch prints a reminder. Example with [husky](https://typicode.github.io/husky/):
+If you added `scripts/board-status.mjs`, wire it as your pre-push hook so the
+claim gate can actually fire. Example with [husky](https://typicode.github.io/husky/):
 
 ```sh
 # .husky/pre-push
 # ... your existing checks ...
 
-# Board nudge (never blocks): pushing a feature branch the board doesn't list → remind
-node scripts/board-status.mjs --hook || true
+# Board claim gate (conditional — see README §⑤ "Claim gate"): solo = one
+# reminder line, never blocks; parallel = blocks (exit 1) until you claim.
+# Let its exit code propagate — do not swallow it.
+node scripts/board-status.mjs --hook
 ```
 
-> ⚠️ If you have other gating checks in the same hook, make sure they run with
-> `|| exit 1` **before** this line — otherwise this always-exit-0 line swallows their
-> exit code and silently disables the gate. (Learned the hard way.)
+> ⚠️ Do **not** append `|| true` to this line. The gate's whole point is that
+> it exits 1 when another session is active and your branch is unclaimed —
+> `|| true` silently swallows that exit code and the gate never blocks, no
+> matter how many sessions are running. If you have *other* gating checks in
+> the same hook, put them **before** this line with their own `|| exit 1`, so
+> one script's always-exit-0 pattern can't mask another's failure.

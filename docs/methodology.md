@@ -86,8 +86,8 @@ A board is one Markdown file containing:
 - Judge staleness by the **branch's last-commit time**, not the board edit time (the status script flags `⚠stale`).
 - ⚠️ **Before reclaiming, re-verify on the spot: `git log -1 <branch>`.** Never trust the snapshot, or you'll delete an active branch. Only reclaim if there are truly no new commits; note "reclaimed from stale."
 
-**⑤ Auto-nudge (non-blocking)**
-- A pre-push hook runs `board-status.mjs --hook`: pushing a feature branch not on the board prints one reminder line. Reminder only — never blocks.
+**⑤ Claim gate (conditional)**
+- A pre-push hook runs `board-status.mjs --hook`. Conditional on whether other sessions are active: **solo** (no other feature branch committed in the last 24h) prints one reminder line and never blocks; **parallel** (another feature branch active in the last 24h) blocks (exit 1) an unclaimed feature branch push until you add a claim row. Fail-open on script error; emergency bypass `git push --no-verify`.
 
 ---
 
