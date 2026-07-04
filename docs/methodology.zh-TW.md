@@ -90,7 +90,8 @@
 - ⚠️ **回收前必當場 `git log -1 <分支>` 重驗 HEAD** — 別只信看板舊紀錄，否則會誤刪活躍分支。
 - 確認分支無新 commit 才可改認領，備註註明「原認領 stale 回收」。
 
-**⑤ 認領閘（條件式）**
+**⑤ 認領閘（條件式）— ⚠️ 已退役（2026-06-25），見 [README §Known limitations](../README.md#known-limitations)**
+> 下述為原始設計，保留供理解；**不建議依賴**。唯一已知生產下游（CS 垂直整合 SAAS）2026-06-25 實測退役：靠自律的手動認領，solo dev 遵守率趨近 0；真正擋住並行撞車的一直是 git。並行防撞的源頭防線＝各開 worktree 隔離 HEAD，不是認領列。git-truth 看板（`npm run board`）本身仍有用、續留。
 - pre-push hook 跑 `board-status.mjs --hook`，是否阻擋取決於有沒有其他 session 在跑：**單人**（過去 24 小時沒有其他 feature 分支有 commit）只印一行提醒、不擋;**並行**（過去 24 小時有其他 feature 分支活躍）push 未認領的 feature 分支會被**擋下**（exit 1），直到補上認領列。腳本出錯 fail-open；緊急繞過 `git push --no-verify`。
 
 ---
