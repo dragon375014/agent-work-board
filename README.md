@@ -188,6 +188,14 @@ This is the **entry-level** coordination primitive. If you grow into a larger, m
 
 ---
 
+## 📮 The story behind this
+
+I'm a solo dev running a coffee brand who taught myself to build this toolchain with AI. I write up the reasoning (and the scars) at **[coffeeshooters.com/content](https://coffeeshooters.com/content)** — start with **["I Built My AI Team a Blackboard — How to Stop Parallel Claude Sessions From Colliding"](https://coffeeshooters.com/content/solo-dev-blackboard-for-parallel-ai-sessions-en)** (中文版：[「我幫我的 AI 團隊做了一塊黑板」](https://coffeeshooters.com/content/solo-dev-blackboard-for-parallel-ai-sessions)), the origin story of this exact board. Two-week newsletter, no spam — subscribe on any article.
+
+> 一人品牌創辦人，白天烘豆、晚上跟 AI 一起把這套工具鏈生出來，開發過程都寫成文章放在 coffeeshooters.com/content。
+
+---
+
 ## License
 
 MIT — see [`LICENSE`](LICENSE). Use it anywhere, no attribution required.
