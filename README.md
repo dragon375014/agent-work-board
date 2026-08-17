@@ -1,5 +1,29 @@
 # 🗂️ agent-work-board
 
+> ## ⚠️ Retired — 2026-08-17
+>
+> **The tooling now does this natively. Don't install this.**
+>
+> When I wrote this, parallel AI sessions had no filesystem isolation and no shared
+> tasking, so a plain-text board was the cheapest thing that worked. Claude Code has
+> since shipped both natively: per-session **git worktree isolation** and **agent
+> teams** with shared tasking. That covers what this repo's core was for.
+>
+> **If you're hitting the collision problem today, the answer is to turn on the
+> built-in worktree isolation — not to install this.**
+>
+> Two limitations were already documented here before retirement, and they point the
+> same way: the claim gate was retired on 2026-06-25 (solo compliance in practice was
+> near zero), and this was never published to npm.
+>
+> **The repo stays up as a record, not as a recommendation.** The methodology notes —
+> why a coordination board was the wrong shape, and what actually stopped the two real
+> collisions (git itself, not the board) — are the part still worth reading.
+>
+> — Dexter · see [coffeeshooters.com/open-source](https://coffeeshooters.com/open-source)
+
+---
+
 **A one-file coordination board so your parallel AI coding sessions don't collide.**
 
 > 一個純文字看板，讓你同時開的多個 AI 對話視窗 / worktree 不會互相打架。
